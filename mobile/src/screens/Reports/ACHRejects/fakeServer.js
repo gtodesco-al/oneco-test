@@ -1,0 +1,32 @@
+let arr = [];
+for (let i = 1; i < 100; i++) {
+  arr.push({
+    key: i,
+    value: '800',
+    reported_date: '05/12/2022',
+    reason_code: '123456',
+    merchant_account_name: 'Account Name',
+    transaction_date: '00/00/0000',
+    reason_description: 'Reason Description',
+  });
+}
+let lastItem = '';
+
+export const fakeServer = qty =>
+  new Promise((resolve, reject) => {
+    let newArr;
+    const lastItemIndex = arr.indexOf(lastItem);
+    if (lastItemIndex === arr.length - 1) return resolve('done');
+
+    if (!lastItem) {
+      newArr = [...arr].slice(0, qty);
+      lastItem = [...newArr].pop();
+    } else {
+      const newIndex = arr.indexOf(lastItem) + 1;
+      newArr = [...arr].slice(newIndex, qty + newIndex);
+      lastItem = [...newArr].pop();
+    }
+    setTimeout(() => {
+      resolve(newArr);
+    }, 1000);
+  });

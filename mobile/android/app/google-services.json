@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "302374633675",
+    "project_id": "oneco-mobile-app---staging",
+    "storage_bucket": "oneco-mobile-app---staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302374633675:android:9b125060cc3614640a1b4e",
+        "android_client_info": {
+          "package_name": "com.fortis.businessportal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302374633675-i1flfe7kmmgrp3lrrj3q8o7d26974t22.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5heazDIyvuzbMW-W23DGjjkp-X8rIvcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302374633675-i1flfe7kmmgrp3lrrj3q8o7d26974t22.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

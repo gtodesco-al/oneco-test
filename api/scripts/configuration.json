@@ -1,0 +1,41 @@
+{
+  "types": {
+    "paths": [
+      "/v1/transactions/ach/debit/keyed",
+      "/v1/transactions/ach/credit/keyed",
+      "/v1/transactions/cc/avs-only/keyed",
+      "/v1/transactions/cc/avs-only/terminal",
+      "/v1/transactions/cc/auth-only/keyed",
+      "/v1/transactions/cc/auth-only/terminal",
+      "/v1/transactions/cc/force/keyed",
+      "/v1/transactions/cc/force/terminal",
+      "/v1/transactions/cc/refund/keyed",
+      "/v1/transactions/cc/refund/terminal",
+      "/v1/transactions/cc/sale/keyed",
+      "/v1/transactions/cc/sale/terminal",
+      "/v1/transactions/cc/sale/token"
+    ],
+    "components": [
+      "responseContact",
+      "responseLocation",
+      "responseToken",
+      "responseUser",
+      "responseTransaction",
+      "responseAsyncStatus",
+      "responseRoutingNumber",
+      "responseSalesTax",
+      "responseReportingSummaryTransactionsAchRejectsCollection",
+      "responseReportingSummaryTransactionsChargebacksCollection",
+      "responseReportingSummaryTransactionsGatewaysCollection",
+      "responseReportingSummaryTransactionsRecurringDeclinedsCollection",
+      "responseReportingSummaryTransactionsRecurringForecastsCollection",
+      "responseReportingSummaryTransactionsRecurringHistorysCollection",
+      "responseReportingSummaryTransactionsSettledsCollection"
+    ]
+  },
+  "schemas": {
+    "paths": [
+      "/v1/contacts"
+    ]
+  }
+}

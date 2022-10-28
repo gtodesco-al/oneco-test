@@ -1,0 +1,95 @@
+image: node:16
+
+definitions:
+  steps:
+    - step: &api-build-test
+        name: API - Build and Test
+        caches:
+          - node
+        script:
+          - cd ./api
+          - npm install
+          - npm test
+    - step: &mobile-build-test
+        name: MOBILE - Build and Test
+        caches:
+          - node
+        script:
+          - cd ./mobile
+          - npm install
+          - npm run lint
+          - npm test
+    - step: &web-build-test
+        name: WEB - Build and Test
+        caches:
+          - node
+        script:
+          - cd ./api
+          - npm install
+          - cd ../web
+          - npm install
+          - npm run lint
+          - npm run format:check
+          # - npm run test:run
+    - step: &deploy-develop
+        name: Sandbox Deploy
+        #caches:
+          #- node
+        script:
+          - cd ./api
+          - npm install
+          - cd .. && cp .env.develop web/.env 
+          - cd ./web
+          - wget https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip && unzip awscli-exe-linux-x86_64.zip && ./aws/install && rm -f awscli-exe-linux-x86_64.zip && rm -Rf aws
+          - npm install -g serverless
+          - npm install
+          - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID_DEV --secret $AWS_SECRET_ACCESS_KEY_DEV -o
+          - sls deploy --stage development
+    - step: &deploy-sandbox
+        name: Sandbox Deploy
+        #caches:
+          #- node
+        script:
+          - cd ./api
+          - npm install
+          - cd .. && cp .env.sandbox web/.env 
+          - cd ./web
+          - wget https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip && unzip awscli-exe-linux-x86_64.zip && ./aws/install && rm -f awscli-exe-linux-x86_64.zip && rm -Rf aws
+          - npm install -g serverless
+          - npm install
+          - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID_DEV --secret $AWS_SECRET_ACCESS_KEY_DEV -o
+          - sls deploy --stage sandbox
+    - step: &deploy-production
+        name: Production Deploy
+        #caches:
+          #- node
+        script:
+          - cd ./api
+          - npm install
+          - cd .. && cp .env.production web/.env
+          - cd ./web
+          - wget https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip && unzip awscli-exe-linux-x86_64.zip && ./aws/install && rm -f awscli-exe-linux-x86_64.zip && rm -Rf aws
+          - npm install -g serverless
+          - npm install
+          - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID_PROD --secret $AWS_SECRET_ACCESS_KEY_PROD -o
+          - sls deploy --stage production
+    - parallel: &test-all
+        - step: *api-build-test
+        - step: *mobile-build-test
+        - step: *web-build-test
+
+pipelines:
+  branches:
+    master:
+      #- parallel: *test-all
+      - step: *deploy-production
+    staged-master:
+      - step: *deploy-sandbox
+     
+  pull-requests:
+    api/**:
+      - step: *api-build-test
+    mobile/**:
+      - step: *mobile-build-test
+    web/**:
+      - step: *web-build-test

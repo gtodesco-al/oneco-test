@@ -1,0 +1,49 @@
+{
+  "name": "@fortis/api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "react-native": "src/index.ts",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "test": "npm run format && jest",
+    "oas": "node scripts/oas-to-ts"
+  },
+  "keywords": [],
+  "author": "",
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
+    ]
+  },
+  "devDependencies": {
+    "ajv-formats": "^2.1.1",
+    "@feathersjs/authentication-client": "^5.0.0-pre.29",
+    "@feathersjs/errors": "^5.0.0-pre.22",
+    "@feathersjs/feathers": "^5.0.0-pre.29",
+    "@feathersjs/rest-client": "^5.0.0-pre.29",
+    "@feathersjs/schema": "^5.0.0-pre.29",
+    "@types/jest": "^27.5.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@typescript-eslint/parser": "^5.10.2",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^28.1.0",
+    "node-fetch": "^2.0.0",
+    "prettier": "^2.5.1",
+    "ts-jest": "^28.0.3",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.5.5"
+  },
+  "license": "ISC"
+}

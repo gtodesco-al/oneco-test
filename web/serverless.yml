@@ -1,0 +1,47 @@
+service: business-portal
+
+custom:
+  myStage: ${opt:stage, self:provider.stage}
+  domains:
+    production:
+      domainName: portal.fortis.tech
+      certificate: arn:aws:acm:us-east-1:987198178729:certificate/0ff5263b-f232-4c5b-b0c8-b53826f8005e
+      zoneId: Z02683041KRAP03RBRDP0
+    development:
+      domainName: portal.sandbox.fortis.tech
+      certificate: arn:aws:acm:us-east-1:347663248267:certificate/c60977aa-08f8-4f95-8d1a-bc721f8cf5d5
+      zoneId: Z07544491Z5TJF80D7240
+
+provider:
+  name: aws
+  region: us-east-1
+  stage: development
+
+constructs:
+  landing:
+    type: static-website
+    path: dist
+    domain: ${self:custom.domains.${self:custom.myStage}.domainName}
+    certificate: ${self:custom.domains.${self:custom.myStage}.certificate}
+
+plugins:
+  - serverless-lift
+package:
+  patterns:
+    # Excluded files and folders for deployment
+    - '!/**'
+    # If you want to include files and folders that are part of excluded folders,
+    # add them at the end
+    - 'dist/**'
+
+resources:
+  Resources:
+    Route53Record:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        HostedZoneId: ${self:custom.domains.${self:custom.myStage}.zoneId}
+        Name: ${self:custom.domains.${self:custom.myStage}.domainName}
+        Type: A
+        AliasTarget:
+          HostedZoneId: Z2FDTNDATAQYW2 # Cloudfront Route53 HostedZoneId. This does not change.
+          DNSName: ${construct:landing.cname}

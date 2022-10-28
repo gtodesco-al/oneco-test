@@ -1,0 +1,221 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7 (swiftlang-5.7.0.127.4 clang-1400.0.29.50)
+// swift-module-flags: -target x86_64-apple-ios12.4-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name PaymentSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import CommonCrypto
+import Foundation
+@_exported import PaymentSDK
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+@objc public class TransactionService : ObjectiveC.NSObject {
+  @objc public init(restClient: PaymentSDK.RestServiceClient)
+  @objc public func processTransaction(transactionAction action: PaymentSDK.TransactionActionOBJC, paramMap map: Foundation.NSMutableDictionary, transactionId id: Swift.String? = "", completion: @escaping (_ result: Swift.String) -> Swift.Void)
+  public func processTransaction(transactionAction action: PaymentSDK.TransactionAction, paramMap map: Foundation.NSMutableDictionary, transactionId id: Swift.String? = "", completion: @escaping (_ result: Swift.String) -> Swift.Void)
+  @objc deinit
+}
+@objc public class RestServiceClient : ObjectiveC.NSObject {
+  public var requestHttpHeaders: PaymentSDK.RestEntity {
+    get
+  }
+  public var urlQueryParameters: PaymentSDK.RestEntity {
+    get
+  }
+  public var httpBodyParameters: PaymentSDK.RestEntity {
+    get
+  }
+  public var urlString: Swift.String {
+    get
+  }
+  public var apiProtocol: Swift.String {
+    get
+  }
+  public var apiHostName: Swift.String {
+    get
+  }
+  public var apiEndPointPath: Swift.String {
+    get
+  }
+  @objc public init(apiProtocol _protocol: Swift.String, apiHostName _hostName: Swift.String, apiEndpointPath _endpoint: Swift.String? = "")
+  @objc public func setHTTPRequestHeaders(headerParams params: Foundation.NSDictionary) -> Swift.Bool
+  @objc deinit
+}
+public enum Algorithm {
+  case md5, sha1, sha224, sha256, sha384, sha512
+  public var digestLength: Swift.Int {
+    get
+  }
+  public static func == (a: PaymentSDK.Algorithm, b: PaymentSDK.Algorithm) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol CryptoHashable {
+  associatedtype Hash
+  func digest(_ algorithm: PaymentSDK.Algorithm, key: Swift.String?) -> Self.Hash
+  var md5: Self.Hash { get }
+  var sha1: Self.Hash { get }
+  var sha224: Self.Hash { get }
+  var sha256: Self.Hash { get }
+  var sha384: Self.Hash { get }
+  var sha512: Self.Hash { get }
+}
+extension PaymentSDK.CryptoHashable {
+  public var md5: Self.Hash {
+    get
+  }
+  public var sha1: Self.Hash {
+    get
+  }
+  public var sha224: Self.Hash {
+    get
+  }
+  public var sha256: Self.Hash {
+    get
+  }
+  public var sha384: Self.Hash {
+    get
+  }
+  public var sha512: Self.Hash {
+    get
+  }
+}
+extension Swift.String : PaymentSDK.CryptoHashable {
+  public func digest(_ algorithm: PaymentSDK.Algorithm) -> Swift.String
+  public func digest(_ algorithm: PaymentSDK.Algorithm, key: Swift.String?) -> Swift.String
+  public func digest(_ algorithm: PaymentSDK.Algorithm, key: Foundation.Data?) -> Swift.String
+  public typealias Hash = Swift.String
+}
+extension Foundation.Data : PaymentSDK.CryptoHashable {
+  public func digest(_ algorithm: PaymentSDK.Algorithm) -> Foundation.Data
+  public func digest(_ algorithm: PaymentSDK.Algorithm, key: Swift.String?) -> Foundation.Data
+  public func digest(_ algorithm: PaymentSDK.Algorithm, key: Foundation.Data?) -> Foundation.Data
+  public typealias Hash = Foundation.Data
+}
+@objc public protocol EMVUIDelegate {
+  @objc func deviceMessage(message: Swift.String!)
+  @objc func deviceScanResponse(deviceID: Swift.String!, deviceName: Swift.String!)
+  @objc func deviceConnected()
+  @objc func deviceDisconnected()
+  @objc func outputLogs(logs: Swift.String!)
+  @objc func transactionResponse(data: Swift.String!)
+}
+@objc public class EMVTransaction : ObjectiveC.NSObject, PaymentSDK.EMVTransactionDelegate {
+  @objc weak public var delegate: PaymentSDK.EMVUIDelegate?
+  @objc weak public var pluginDelegate: PaymentSDK.PluginDelegate?
+  @objc public var isPluginRequest: Swift.Bool
+  @objc public var idtechDeviceWrapper: PaymentSDK.IDTechWrapper
+  @objc public var restServiceClient: PaymentSDK.RestServiceClient
+  @objc public init(restClient: PaymentSDK.RestServiceClient)
+  @objc public init(restClient: PaymentSDK.RestServiceClient, device: PaymentSDK.DeviceTypeOBJC)
+  @objc public func deviceMessage(_ message: Swift.String!)
+  @objc public func deviceScanResponse(_ deviceID: Swift.String!, deviceName: Swift.String!)
+  @objc public func deviceConnected()
+  @objc public func deviceDisconnected()
+  @objc public func outputLogs(_ logs: Swift.String!)
+  @objc public func msrData(_ data: Swift.String!, fallback: Swift.Bool, serial: Swift.String!, kernelVersion: Swift.String!)
+  @objc public func emvChipData(_ data: Swift.String!, ksn: Swift.String!, serial: Swift.String!, kernelVersion: Swift.String!)
+  @objc public func emvTapData(_ data: Swift.String!, ksn: Swift.String!, serial: Swift.String!, kernelVersion: Swift.String!)
+  public func setDeviceType(type: PaymentSDK.DeviceType) -> Swift.Bool
+  @objc public func setDeviceTypeOBJC(deviceType: PaymentSDK.DeviceTypeOBJC) -> Swift.Bool
+  @objc public func scanForDevices() -> Swift.Bool
+  @objc public func scanForDevices(timeout: Swift.Double) -> Swift.Bool
+  @objc public func scanForDevices(searchString: Swift.String!, timeout: Swift.Double) -> Swift.Bool
+  @objc public func initialDeviceSetup() -> Swift.Bool
+  @objc public func setTimeouts(idleMinutes: Swift.Int, sleepMinutes: Swift.Int) -> Swift.Bool
+  @objc public func connectDeviceByName(name: Swift.String) -> Swift.Bool
+  @objc public func PerformEMVSale(jsonPayload map: [Swift.String : Swift.String]) -> Swift.Bool
+  @objc public func CancelEMVSale() -> Swift.Bool
+  @objc public func DisconnectDevice() -> Swift.Bool
+  @objc deinit
+}
+public enum TransactionAction : Swift.String {
+  case Sale
+  case Refund
+  case Void
+  case AuthOnly
+  case AuthComplete
+  case AuthIncrement
+  case Force
+  case TipAdjust
+  case Debit
+  case Credit
+  case Edit
+  case AVSOnly
+  case ViewRecord
+  case ViewRecordList
+  case GetBinInfo
+  case Store
+  case NotSelected
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public enum TransactionActionOBJC : Swift.Int {
+  case NotSelected = 0
+  case Sale = 1
+  case Refund = 2
+  case Void = 3
+  case AuthOnly = 4
+  case AuthComplete = 5
+  case AuthIncrement = 6
+  case Force = 7
+  case TipAdjust = 8
+  case Debit = 9
+  case Credit = 10
+  case Edit = 11
+  case AVSOnly = 12
+  case ViewRecord = 13
+  case ViewRecordList = 14
+  case GetBinInfo = 15
+  case Store = 16
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum DeviceType : Swift.String {
+  case UNKNOWN
+  case IDTECH_VP3300BT
+  case IDTECH_VP8800
+  case MAGTEK_IDYNAMO
+  case MAGTEK_TDYNAMO
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public enum DeviceTypeOBJC : Swift.Int {
+  case UNKNOWN = 0
+  case IDTECH_VP3300BT = 1
+  case IDTECH_VP8800 = 2
+  case MAGTEK_IDYNAMO = 3
+  case MAGTEK_TDYNAMO = 4
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct RestEntity {
+}
+extension PaymentSDK.Algorithm : Swift.Equatable {}
+extension PaymentSDK.Algorithm : Swift.Hashable {}
+extension PaymentSDK.TransactionAction : Swift.Equatable {}
+extension PaymentSDK.TransactionAction : Swift.Hashable {}
+extension PaymentSDK.TransactionAction : Swift.RawRepresentable {}
+extension PaymentSDK.TransactionActionOBJC : Swift.Equatable {}
+extension PaymentSDK.TransactionActionOBJC : Swift.Hashable {}
+extension PaymentSDK.TransactionActionOBJC : Swift.RawRepresentable {}
+extension PaymentSDK.DeviceType : Swift.Equatable {}
+extension PaymentSDK.DeviceType : Swift.Hashable {}
+extension PaymentSDK.DeviceType : Swift.RawRepresentable {}
+extension PaymentSDK.DeviceTypeOBJC : Swift.Equatable {}
+extension PaymentSDK.DeviceTypeOBJC : Swift.Hashable {}
+extension PaymentSDK.DeviceTypeOBJC : Swift.RawRepresentable {}
